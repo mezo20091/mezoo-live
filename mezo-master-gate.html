@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <title>MEZOO LIVE 👑 | Master Control Vault</title>
+  <link rel="icon" type="image/png" href="mezo-icon.png">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-primary: #070c0e;
+      --bg-card: #0c1418;
+      --bg-card-hover: #101c22;
+      --border-color: #172930;
+      --text-main: #f1f5f9;
+      --text-muted: #8ba2ab;
+      --classic-gold: #d4af37;
+      --primary: #0d9488;
+      --primary-active: #14b8a6;
+      --danger: #ef4444;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(13, 148, 136, 0.12) 0px, transparent 50%),
+        radial-gradient(at 90% 90%, rgba(212, 175, 55, 0.08) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 30px 20px;
+      width: 100%;
+    }
+
+    /* Auth Overlay */
+    #authOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 12, 14, 0.96);
+      backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+    }
+
+    .auth-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 40px 30px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(13, 148, 136, 0.15);
+    }
+
+    .auth-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--classic-gold);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 20px;
+    }
+
+    .auth-title {
+      font-size: 1.45rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .auth-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .auth-input-wrap {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 1rem;
+      text-align: center;
+      outline: none;
+      transition: all 0.25s ease;
+    }
+
+    .auth-input:focus {
+      border-color: var(--primary-active);
+      box-shadow: 0 0 20px rgba(20, 184, 166, 0.25);
+    }
+
+    .btn-auth {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary-active), var(--classic-gold));
+      color: #070c0e;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-auth:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(20, 184, 166, 0.35);
+    }
+
+    .auth-error {
+      color: var(--danger);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-top: 14px;
+      display: none;
+    }
+
+    /* Dashboard UI */
+    .dash-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 30px;
+    }
+
+    .dash-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .dash-brand img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+    }
+
+    .dash-brand-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: 1px;
+    }
+
+    .btn-logout {
+      padding: 8px 18px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* Card Section */
+    .dash-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .card-title-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .card-title-bar i {
+      color: var(--primary-active);
+    }
+
+    /* Update Manager */
+    .update-status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .status-tile {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .status-tile-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .status-tile-val {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--success);
+    }
+
+    .link-box {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px;
+      font-family: monospace;
+      font-size: 0.88rem;
+      color: var(--primary-active);
+      word-break: break-all;
+      margin-bottom: 20px;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s ease;
+    }
+
+    .btn-action-primary {
+      background: linear-gradient(135deg, var(--primary-active), #38bdf8);
+      color: #070c0e;
+    }
+
+    .btn-action-gold {
+      background: linear-gradient(135deg, var(--classic-gold), #f59e0b);
+      color: #070c0e;
+    }
+
+    .btn-action-outline {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: #fff;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Instructions list */
+    .steps-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .steps-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    .steps-list li span.num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(13, 148, 136, 0.2);
+      color: var(--primary-active);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Secret Authentication Modal -->
+  <div id="authOverlay">
+    <div class="auth-box">
+      <div class="auth-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <h2 class="auth-title">MEZOO LIVE • Master Gate</h2>
+      <p class="auth-desc">البوابة السرية الخاصة بمالك المنصة للتحكم والتحديثات</p>
+
+      <div class="auth-input-wrap">
+        <input type="password" id="passInput" class="auth-input" placeholder="أدخل كلمة المرور المشفرة" autocomplete="off">
+      </div>
+
+      <button id="btnUnlock" class="btn-auth">
+        <i class="fa-solid fa-lock-open"></i> دخول لوحة التحكم
+      </button>
+
+      <div id="authError" class="auth-error">
+        <i class="fa-solid fa-triangle-exclamation"></i> كلمة المرور غير صحيحة!
+      </div>
+    </div>
+  </div>
+
+  <!-- Master Control Dashboard -->
+  <div class="container" id="dashContainer" style="display: none;">
+    <header class="dash-header">
+      <div class="dash-brand">
+        <img src="mezo-icon.png" alt="Logo">
+        <div>
+          <div class="dash-brand-title">MEZOO LIVE • Master Vault 👑</div>
+          <div style="font-size: 0.8rem; color: var(--primary-active);">جلسة مالك المنصة المشفرة نشطة</div>
+        </div>
+      </div>
+      <button id="btnLogout" class="btn-logout">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> تسجيل خروج
+      </button>
+    </header>
+
+    <!-- App Update Manager Card -->
+    <div class="dash-card">
+      <div class="card-title-bar">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <span>مركز إدارة التحديثات الحية (App Updates)</span>
+      </div>
+
+      <div class="update-status-grid">
+        <div class="status-tile">
+          <div class="status-tile-label">الإصدار الحالي (Current Version)</div>
+          <div class="status-tile-val">v1.0.0</div>
+        </div>
+
+        <div class="status-tile">
+          <div class="status-tile-label">حالة التحديثات المباشرة</div>
+          <div class="status-tile-val status-badge">
+            <i class="fa-solid fa-circle-check"></i> متصل ونشط أونلاين
+          </div>
+        </div>
+
+        <div class="status-tile">
+          <div class="status-tile-label">اسم الملف الرسمي</div>
+          <div class="status-tile-val" style="font-size: 1rem;">mezo.live.exe (184 MB)</div>
+        </div>
+      </div>
+
+      <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 8px;">
+        الرابط الدائم المربوط بزر الموقع حالياً:
+      </div>
+      <div class="link-box">
+        https://github.com/mezo20091/mezoo-live/releases/latest/download/mezo.live.exe
+      </div>
+
+      <div class="action-row">
+        <a href="https://github.com/mezo20091/mezoo-live/releases/new" target="_blank" class="btn-action btn-action-primary">
+          <i class="fa-solid fa-plus"></i> رفع إصدار جديد (New Release)
+        </a>
+        <a href="https://github.com/mezo20091/mezoo-live/releases" target="_blank" class="btn-action btn-action-outline">
+          <i class="fa-solid fa-list-check"></i> قائمة كل الإصدارات
+        </a>
+        <button id="btnCopyLink" class="btn-action btn-action-gold">
+          <i class="fa-solid fa-copy"></i> نسخ رابط التحميل المباشر
+        </button>
+      </div>
+
+      <ul class="steps-list">
+        <li>
+          <span class="num">1</span>
+          <span>عند بناء تحديث جديد، اضغط على زر "رفع إصدار جديد" وضع رقم الإصدار الجديد (مثلاً v1.0.1).</span>
+        </li>
+        <li>
+          <span class="num">2</span>
+          <span>اسحب ملف البرنامج الجديد باسم <strong>mezo.live.exe</strong> واضغط Publish.</span>
+        </li>
+        <li>
+          <span class="num">3</span>
+          <span>سينزل التحديث تلقائياً لأي شخص يضغط تحميل من الموقع بدون الحاجة لتعديل أي كود!</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Quick Management Shortcuts -->
+    <div class="dash-card">
+      <div class="card-title-bar">
+        <i class="fa-solid fa-sliders"></i>
+        <span>إعدادات البنية السحابية السريعة</span>
+      </div>
+
+      <div class="action-row">
+        <a href="https://dash.cloudflare.com" target="_blank" class="btn-action btn-action-outline">
+          <i class="fa-solid fa-cloud"></i> لوحة تحكم Cloudflare
+        </a>
+        <a href="https://github.com/mezo20091/mezoo-live" target="_blank" class="btn-action btn-action-outline">
+          <i class="fa-brands fa-github"></i> مستودع GitHub الرسمي
+        </a>
+        <a href="https://mezoo.live" target="_blank" class="btn-action btn-action-outline">
+          <i class="fa-solid fa-globe"></i> فتح الموقع الرسمي mezoo.live
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // SHA-256 Hash of mezo2009#
+    const MASTER_HASH = "aa21803c40e668f68722455e1dfb8337230578770c28e4a903decd67861ac88f";
+
+    async function sha256(str) {
+      const buf = new TextEncoder().encode(str);
+      const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+      const hashArr = Array.from(new Uint8Array(hashBuf));
+      return hashArr.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    const overlay = document.getElementById('authOverlay');
+    const container = document.getElementById('dashContainer');
+    const passInput = document.getElementById('passInput');
+    const btnUnlock = document.getElementById('btnUnlock');
+    const authError = document.getElementById('authError');
+    const btnLogout = document.getElementById('btnLogout');
+
+    // Auto login from session
+    if (sessionStorage.getItem('mezo_master_auth') === 'true') {
+      overlay.style.display = 'none';
+      container.style.display = 'block';
+    }
+
+    async function attemptLogin() {
+      const val = passInput.value;
+      if (!val) return;
+      const hashed = await sha256(val);
+      if (hashed === MASTER_HASH) {
+        sessionStorage.setItem('mezo_master_auth', 'true');
+        overlay.style.display = 'none';
+        container.style.display = 'block';
+        authError.style.display = 'none';
+      } else {
+        authError.style.display = 'block';
+        passInput.value = '';
+        passInput.focus();
+      }
+    }
+
+    btnUnlock.addEventListener('click', attemptLogin);
+    passInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') attemptLogin();
+    });
+
+    btnLogout.addEventListener('click', () => {
+      sessionStorage.removeItem('mezo_master_auth');
+      window.location.reload();
+    });
+
+    document.getElementById('btnCopyLink').addEventListener('click', () => {
+      navigator.clipboard.writeText("https://github.com/mezo20091/mezoo-live/releases/latest/download/mezo.live.exe");
+      alert("تم نسخ رابط التحميل المباشر بنجاح! 📋");
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /mezo-master-gate.html
+Disallow: /admin
+Disallow: /admin.html
