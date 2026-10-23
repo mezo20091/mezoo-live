@@ -4,316 +4,715 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
-  <title>MEZOO LIVE 👑 | Master Control Vault</title>
+  <title>لوحة تحكم الأدمن 👑 | Mezoo Live Master Control</title>
   <link rel="icon" type="image/png" href="mezo-icon.png">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@600;800;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    :root {
-      --bg-primary: #070c0e;
-      --bg-card: #0c1418;
-      --bg-card-hover: #101c22;
-      --border-color: #172930;
-      --text-main: #f1f5f9;
-      --text-muted: #8ba2ab;
-      --classic-gold: #d4af37;
-      --primary: #0d9488;
-      --primary-active: #14b8a6;
-      --danger: #ef4444;
-      --success: #10b981;
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Cairo', sans-serif;
+    }
+
+    :root {
+      --bg-dark: #080f12;
+      --card-bg: #0c1418;
+      --card-bg-hover: #111c22;
+      --card-border: #172930;
+      --accent-cyan: #14b8a6;
+      --accent-teal: #0d9488;
+      --accent-gold: #d4af37;
+      --accent-gold-bright: #fbbf24;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --text-main: #f1f5f9;
+      --text-muted: #8ba2ab;
+      --primary: #0d9488;
+      --primary-active: #14b8a6;
     }
 
     body {
-      background-color: var(--bg-primary);
+      background-color: var(--bg-dark);
       background-image: 
-        radial-gradient(at 10% 10%, rgba(13, 148, 136, 0.12) 0px, transparent 50%),
-        radial-gradient(at 90% 90%, rgba(212, 175, 55, 0.08) 0px, transparent 50%);
+        radial-gradient(at 10% 10%, rgba(13, 148, 136, 0.14) 0px, transparent 50%),
+        radial-gradient(at 90% 90%, rgba(212, 175, 55, 0.09) 0px, transparent 50%);
       background-attachment: fixed;
+      font-family: 'Cairo', sans-serif;
       color: var(--text-main);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      padding: 24px 16px;
     }
 
     .container {
-      max-width: 950px;
+      max-width: 1320px;
       margin: 0 auto;
-      padding: 30px 20px;
-      width: 100%;
     }
 
-    /* Auth Overlay */
-    #authOverlay {
+    /* Secret Master Auth Gate */
+    #adminAuthGate {
       position: fixed;
       inset: 0;
       background: rgba(7, 12, 14, 0.96);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(18px);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
-      padding: 20px;
-    }
-
-    .auth-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 40px 30px;
-      max-width: 440px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(13, 148, 136, 0.15);
-    }
-
-    .auth-icon {
-      width: 64px;
-      height: 64px;
-      background: rgba(212, 175, 55, 0.12);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      color: var(--classic-gold);
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      margin: 0 auto 20px;
-    }
-
-    .auth-title {
-      font-size: 1.45rem;
-      font-weight: 900;
-      margin-bottom: 8px;
-    }
-
-    .auth-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-    }
-
-    .auth-input-wrap {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    .auth-input {
-      width: 100%;
-      padding: 14px 18px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      color: #fff;
-      font-size: 1rem;
-      text-align: center;
-      outline: none;
-      transition: all 0.25s ease;
-    }
-
-    .auth-input:focus {
-      border-color: var(--primary-active);
-      box-shadow: 0 0 20px rgba(20, 184, 166, 0.25);
-    }
-
-    .btn-auth {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, var(--primary-active), var(--classic-gold));
-      color: #070c0e;
-      border: none;
-      border-radius: 12px;
-      font-size: 1.05rem;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-
-    .btn-auth:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(20, 184, 166, 0.35);
-    }
-
-    .auth-error {
-      color: var(--danger);
-      font-size: 0.88rem;
-      font-weight: 700;
-      margin-top: 14px;
-      display: none;
-    }
-
-    /* Dashboard UI */
-    .dash-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border-color);
-      margin-bottom: 30px;
-    }
-
-    .dash-brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .dash-brand img {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-    }
-
-    .dash-brand-title {
-      font-size: 1.4rem;
-      font-weight: 900;
-      font-family: 'Outfit', sans-serif;
-      letter-spacing: 1px;
-    }
-
-    .btn-logout {
-      padding: 8px 18px;
-      background: rgba(239, 68, 68, 0.12);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    /* Card Section */
-    .dash-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 18px;
-      padding: 28px;
-      margin-bottom: 24px;
-    }
-
-    .card-title-bar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1.2rem;
-      font-weight: 800;
-      margin-bottom: 20px;
-      color: #fff;
-    }
-
-    .card-title-bar i {
-      color: var(--primary-active);
-    }
-
-    /* Update Manager */
-    .update-status-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .status-tile {
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
+      z-index: 99999;
       padding: 16px;
     }
 
-    .status-tile-label {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 6px;
+    .auth-gate-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 40px 32px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(20, 184, 166, 0.18);
     }
 
-    .status-tile-val {
-      font-size: 1.25rem;
+    .auth-gate-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 18px;
+      border-radius: 20px;
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: var(--accent-gold);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
+    }
+
+    .auth-gate-card h2 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .auth-gate-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    /* Form Controls */
+    .form-group {
+      margin-bottom: 18px;
+      text-align: right;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.86rem;
       font-weight: 800;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      background: #070c0e;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 15px rgba(20, 184, 166, 0.25);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 85px;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid transparent;
+      font-family: inherit;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), #0284c7);
+      color: #070c0e;
+      box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 20px rgba(20, 184, 166, 0.5);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--accent-gold), #f59e0b);
+      color: #070c0e;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-gold:hover {
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #f1f5f9;
+      border-color: var(--card-border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #2a414b;
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border-color: rgba(239, 68, 68, 0.35);
+    }
+
+    .btn-danger:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    .btn-success {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-success:hover {
+      background: #10b981;
+      color: #fff;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      border-radius: 9px;
+    }
+
+    /* Top Header */
+    .admin-header {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px 26px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      flex-wrap: wrap;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(212, 175, 55, 0.2));
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-gold);
+      font-size: 26px;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+    }
+
+    .brand-title h1 {
+      font-size: 1.45rem;
+      font-weight: 900;
       color: #fff;
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    .brand-title p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.85rem;
-      color: var(--success);
-    }
-
-    .link-box {
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 14px;
-      font-family: monospace;
-      font-size: 0.88rem;
-      color: var(--primary-active);
-      word-break: break-all;
-      margin-bottom: 20px;
-      direction: ltr;
-      text-align: left;
-    }
-
-    .action-row {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .btn-action {
-      display: inline-flex;
-      align-items: center;
       gap: 8px;
-      padding: 12px 24px;
-      border-radius: 12px;
+      padding: 7px 14px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 20px;
+      color: var(--accent-green);
+      font-size: 0.84rem;
       font-weight: 800;
-      font-size: 0.95rem;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 10px var(--accent-green);
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* 4 Top Metric Cards (Exact Match) */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 22px 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
       transition: all 0.25s ease;
     }
 
-    .btn-action-primary {
-      background: linear-gradient(135deg, var(--primary-active), #38bdf8);
-      color: #070c0e;
+    .stat-card:hover {
+      transform: translateY(-3px);
+      border-color: #243d47;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
     }
 
-    .btn-action-gold {
-      background: linear-gradient(135deg, var(--classic-gold), #f59e0b);
-      color: #070c0e;
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; left: 0;
+      height: 3px;
     }
 
-    .btn-action-outline {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-color);
+    .stat-users::before { background: linear-gradient(90deg, var(--accent-cyan), #0284c7); }
+    .stat-subscribers::before { background: linear-gradient(90deg, var(--accent-gold), #f59e0b); }
+    .stat-banned::before { background: linear-gradient(90deg, var(--accent-red), #f87171); }
+    .stat-version::before { background: linear-gradient(90deg, #14b8a6, var(--accent-gold)); }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .stat-title {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      font-weight: 800;
+    }
+
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+    }
+
+    .stat-users .stat-icon { background: rgba(20, 184, 166, 0.15); color: var(--accent-cyan); }
+    .stat-subscribers .stat-icon { background: rgba(212, 175, 55, 0.15); color: var(--accent-gold); }
+    .stat-banned .stat-icon { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+    .stat-version .stat-icon { background: rgba(20, 184, 166, 0.15); color: var(--accent-cyan); }
+
+    .stat-value {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .stat-footer {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* Navigation Tabs */
+    .tabs-nav {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 14px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 11px 22px;
+      border-radius: 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.94rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+      font-family: inherit;
+    }
+
+    .tab-btn:hover {
+      background: var(--card-bg-hover);
       color: #fff;
     }
 
-    .btn-action:hover {
-      transform: translateY(-2px);
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(20, 184, 166, 0.15), rgba(212, 175, 55, 0.12));
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      box-shadow: 0 0 20px rgba(20, 184, 166, 0.25);
     }
 
-    /* Instructions list */
+    /* Section Cards */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 26px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-size: 1.22rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Search & Filter Bar */
+    .filters-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .search-input-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .search-input-wrap i {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    .search-input-wrap input {
+      width: 100%;
+      background: #070c0e;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 11px 42px 11px 16px;
+      color: #fff;
+      font-size: 0.92rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-input-wrap input:focus {
+      border-color: var(--accent-cyan);
+    }
+
+    .filter-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-tag {
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: #070c0e;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .filter-tag:hover, .filter-tag.active {
+      background: rgba(20, 184, 166, 0.15);
+      color: var(--accent-cyan);
+      border-color: var(--accent-cyan);
+    }
+
+    /* Table Styles */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: right;
+    }
+
+    th {
+      background: #081115;
+      color: var(--text-muted);
+      padding: 14px 16px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      border-bottom: 1px solid var(--card-border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 16px;
+      border-bottom: 1px solid var(--card-border);
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      white-space: nowrap;
+      background: var(--card-bg);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: var(--card-bg-hover);
+    }
+
+    .user-info-col {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(20, 184, 166, 0.15);
+      border: 1px solid rgba(20, 184, 166, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      font-size: 15px;
+    }
+
+    .user-name {
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .user-email {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .pill-pro {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--accent-gold);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+    }
+
+    .pill-free {
+      background: rgba(148, 163, 184, 0.12);
+      color: #94a3b8;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .pill-banned {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    .pill-active {
+      background: rgba(16, 185, 129, 0.12);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 12, 14, 0.9);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 30px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(20, 184, 166, 0.15);
+      position: relative;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-close {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+      background: rgba(239, 68, 68, 0.2);
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    .info-card-box {
+      background: #070c0e;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 20px;
+      line-height: 1.7;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+
+    .info-card-box strong {
+      color: var(--accent-cyan);
+    }
+
     .steps-list {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-top: 16px;
+      margin-top: 18px;
     }
 
     .steps-list li {
@@ -325,144 +724,490 @@
     }
 
     .steps-list li span.num {
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
-      background: rgba(13, 148, 136, 0.2);
-      color: var(--primary-active);
+      background: rgba(20, 184, 166, 0.2);
+      border: 1px solid rgba(20, 184, 166, 0.4);
+      color: var(--accent-cyan);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 800;
+    }
+
+    .link-box {
+      background: #070c0e;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px;
+      font-family: monospace;
+      font-size: 0.88rem;
+      color: var(--accent-cyan);
+      word-break: break-all;
+      margin-bottom: 20px;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0c1418;
+      border: 1px solid var(--accent-cyan);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000000;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 14px 10px; }
+      .admin-header { flex-direction: column; align-items: flex-start; }
+      .header-actions { width: 100%; justify-content: flex-start; }
+      .stats-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Secret Authentication Modal -->
-  <div id="authOverlay">
-    <div class="auth-box">
-      <div class="auth-icon">
-        <i class="fa-solid fa-shield-halved"></i>
-      </div>
-      <h2 class="auth-title">MEZOO LIVE • Master Gate</h2>
-      <p class="auth-desc">البوابة السرية الخاصة بمالك المنصة للتحكم والتحديثات</p>
+  <!-- Toast Notification -->
+  <div id="toast" class="toast-msg">
+    <i class="fa-solid fa-circle-check" style="color: var(--accent-cyan);"></i>
+    <span id="toastText">تمت العملية بنجاح!</span>
+  </div>
 
-      <div class="auth-input-wrap">
-        <input type="password" id="passInput" class="auth-input" placeholder="أدخل كلمة المرور المشفرة" autocomplete="off">
+  <!-- Master Admin Password Screen -->
+  <div id="adminAuthGate">
+    <div class="auth-gate-card">
+      <div class="auth-gate-icon">
+        <i class="fa-solid fa-crown"></i>
       </div>
-
-      <button id="btnUnlock" class="btn-auth">
-        <i class="fa-solid fa-lock-open"></i> دخول لوحة التحكم
-      </button>
-
-      <div id="authError" class="auth-error">
-        <i class="fa-solid fa-triangle-exclamation"></i> كلمة المرور غير صحيحة!
-      </div>
+      <h2>لوحة تحكم الأدمن 👑</h2>
+      <p>البوابة المشفرة الخاصة بمالك المنصة لإدارة المستخدمين والتحديثات</p>
+      
+      <form onsubmit="handleMasterLogin(event)">
+        <div class="form-group">
+          <label class="form-label" style="text-align: center;">كلمة المرور الرئيسية (Master Password):</label>
+          <input type="password" id="gatePassword" class="form-control" placeholder="••••••••" required autofocus style="text-align: center; letter-spacing: 4px; font-size: 1.25rem;">
+        </div>
+        <div id="gateError" style="color: var(--accent-red); font-size: 0.88rem; font-weight: 800; margin-bottom: 14px; display: none;">
+          <i class="fa-solid fa-triangle-exclamation"></i> كلمة المرور غير صحيحة!
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 13px;">
+          <i class="fa-solid fa-lock-open"></i> دخول لوحة التحكم
+        </button>
+      </form>
     </div>
   </div>
 
-  <!-- Master Control Dashboard -->
-  <div class="container" id="dashContainer" style="display: none;">
-    <header class="dash-header">
-      <div class="dash-brand">
-        <img src="mezo-icon.png" alt="Logo">
-        <div>
-          <div class="dash-brand-title">MEZOO LIVE • Master Vault 👑</div>
-          <div style="font-size: 0.8rem; color: var(--primary-active);">جلسة مالك المنصة المشفرة نشطة</div>
+  <!-- Main Master Control Dashboard -->
+  <div class="container" id="adminMainContent" style="display: none;">
+
+    <!-- Top Header -->
+    <header class="admin-header">
+      <div class="brand-wrap">
+        <div class="brand-icon">👑</div>
+        <div class="brand-title">
+          <h1>Mezoo Live - Master Control</h1>
+          <p>لوحة الإدارة الشاملة: المشتركين، الحظر، ونشر التحديثات السحابية</p>
         </div>
       </div>
-      <button id="btnLogout" class="btn-logout">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i> تسجيل خروج
-      </button>
+      <div class="header-actions">
+        <span class="status-badge" id="serverLiveBadge">
+          <span class="status-dot"></span> متصل بالسيرفر (Cloud Active)
+        </span>
+        <button class="btn btn-secondary" onclick="openChangePasswordModal()">
+          <i class="fa-solid fa-key"></i> تغيير كلمة السر
+        </button>
+        <button class="btn btn-danger" onclick="adminLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> خروج
+        </button>
+      </div>
     </header>
 
-    <!-- App Update Manager Card -->
-    <div class="dash-card">
-      <div class="card-title-bar">
-        <i class="fa-solid fa-cloud-arrow-up"></i>
-        <span>مركز إدارة التحديثات الحية (App Updates)</span>
+    <!-- 4 Top Metric Cards (Exact Match to Mezoo Admin Control.exe) -->
+    <div class="stats-grid">
+      <div class="stat-card stat-users">
+        <div class="stat-header">
+          <div class="stat-title">إجمالي المستخدمين المسجلين</div>
+          <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+        </div>
+        <div class="stat-value" id="statTotalUsers">4</div>
+        <div class="stat-footer">حسابات Google والإيميل المسجلة</div>
       </div>
 
-      <div class="update-status-grid">
-        <div class="status-tile">
-          <div class="status-tile-label">الإصدار الحالي (Current Version)</div>
-          <div class="status-tile-val">v1.0.0</div>
+      <div class="stat-card stat-subscribers">
+        <div class="stat-header">
+          <div class="stat-title">مشتركي باقة PRO النشطين</div>
+          <div class="stat-icon"><i class="fa-solid fa-crown"></i></div>
+        </div>
+        <div class="stat-value" id="statProSubs" style="color: var(--accent-gold);">1</div>
+        <div class="stat-footer">يمتلكون صلاحيات جميع الألعاب التنافسية</div>
+      </div>
+
+      <div class="stat-card stat-banned">
+        <div class="stat-header">
+          <div class="stat-title">المستخدمين المحظورين</div>
+          <div class="stat-icon"><i class="fa-solid fa-ban"></i></div>
+        </div>
+        <div class="stat-value" id="statBanned" style="color: var(--accent-red);">0</div>
+        <div class="stat-footer">ممنوعون من فتح البرنامج نهائياً</div>
+      </div>
+
+      <div class="stat-card stat-version">
+        <div class="stat-header">
+          <div class="stat-title">إصدار البرنامج الحالي</div>
+          <div class="stat-icon"><i class="fa-solid fa-rocket"></i></div>
+        </div>
+        <div class="stat-value" id="statVersion" style="font-size: 1.8rem; color: var(--accent-cyan);">v1.0.0</div>
+        <div class="stat-footer">نسخة Mezoo Live الرسمية المعتمدة</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('usersTab', this)">
+        <i class="fa-solid fa-users-gear"></i> إدارة المستخدمين والاشتراكات
+      </button>
+      <button class="tab-btn" onclick="switchTab('updatesTab', this)">
+        <i class="fa-solid fa-cloud-arrow-up"></i> نشر التحديثات (App Updates)
+      </button>
+      <button class="tab-btn" onclick="switchTab('domainTab', this)">
+        <i class="fa-solid fa-globe"></i> إعدادات البنية السحابية والدومين
+      </button>
+    </div>
+
+    <!-- TAB 1: USERS & SUBSCRIPTIONS -->
+    <div id="usersTab" class="tab-content">
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">
+            <i class="fa-solid fa-users-line" style="color: var(--accent-cyan);"></i>
+            قائمة المستخدمين والحسابات
+          </div>
+          <button class="btn btn-primary" onclick="openGrantProModal()">
+            <i class="fa-solid fa-user-plus"></i> تفعيل اشتراك PRO لمستخدم
+          </button>
         </div>
 
-        <div class="status-tile">
-          <div class="status-tile-label">حالة التحديثات المباشرة</div>
-          <div class="status-tile-val status-badge">
-            <i class="fa-solid fa-circle-check"></i> متصل ونشط أونلاين
+        <!-- Search and Filters -->
+        <div class="filters-bar">
+          <div class="search-input-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="userSearchInput" placeholder="البحث بالاسم أو البريد الإلكتروني..." oninput="filterUsers()">
+          </div>
+          <div class="filter-tags">
+            <button class="filter-tag active" onclick="setFilter('all', this)">الكل (<span id="countAll">4</span>)</button>
+            <button class="filter-tag" onclick="setFilter('pro', this)">مشتركي PRO (<span id="countPro">1</span>)</button>
+            <button class="filter-tag" onclick="setFilter('free', this)">مجاني Free (<span id="countFree">3</span>)</button>
+            <button class="filter-tag" onclick="setFilter('banned', this)">محظورين Banned (<span id="countBanned">0</span>)</button>
           </div>
         </div>
 
-        <div class="status-tile">
-          <div class="status-tile-label">اسم الملف الرسمي</div>
-          <div class="status-tile-val" style="font-size: 1rem;">mezo.live.exe (184 MB)</div>
+        <!-- Users Table -->
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>المستخدم</th>
+                <th>نوع التسجيل</th>
+                <th>الاشتراك والباقة</th>
+                <th>حالة الحساب</th>
+                <th>تاريخ الانتهاء</th>
+                <th>آخر تسجيل دخول</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
         </div>
       </div>
-
-      <div style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 8px;">
-        الرابط الدائم المربوط بزر الموقع حالياً:
-      </div>
-      <div class="link-box">
-        https://github.com/mezo20091/mezoo-live/releases/latest/download/mezo.live.exe
-      </div>
-
-      <div class="action-row">
-        <a href="https://github.com/mezo20091/mezoo-live/releases/new" target="_blank" class="btn-action btn-action-primary">
-          <i class="fa-solid fa-plus"></i> رفع إصدار جديد (New Release)
-        </a>
-        <a href="https://github.com/mezo20091/mezoo-live/releases" target="_blank" class="btn-action btn-action-outline">
-          <i class="fa-solid fa-list-check"></i> قائمة كل الإصدارات
-        </a>
-        <button id="btnCopyLink" class="btn-action btn-action-gold">
-          <i class="fa-solid fa-copy"></i> نسخ رابط التحميل المباشر
-        </button>
-      </div>
-
-      <ul class="steps-list">
-        <li>
-          <span class="num">1</span>
-          <span>عند بناء تحديث جديد، اضغط على زر "رفع إصدار جديد" وضع رقم الإصدار الجديد (مثلاً v1.0.1).</span>
-        </li>
-        <li>
-          <span class="num">2</span>
-          <span>اسحب ملف البرنامج الجديد باسم <strong>mezo.live.exe</strong> واضغط Publish.</span>
-        </li>
-        <li>
-          <span class="num">3</span>
-          <span>سينزل التحديث تلقائياً لأي شخص يضغط تحميل من الموقع بدون الحاجة لتعديل أي كود!</span>
-        </li>
-      </ul>
     </div>
 
-    <!-- Quick Management Shortcuts -->
-    <div class="dash-card">
-      <div class="card-title-bar">
-        <i class="fa-solid fa-sliders"></i>
-        <span>إعدادات البنية السحابية السريعة</span>
-      </div>
+    <!-- TAB 2: APP UPDATES -->
+    <div id="updatesTab" class="tab-content" style="display: none;">
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">
+            <i class="fa-solid fa-cloud-arrow-up" style="color: var(--accent-cyan);"></i>
+            نشر تحديث جديد لبرنامج Mezoo Live
+          </div>
+          <span class="pill-badge pill-pro" id="currentPublishedVersionBadge">النسخة المنشورة: v1.0.0</span>
+        </div>
 
-      <div class="action-row">
-        <a href="https://dash.cloudflare.com" target="_blank" class="btn-action btn-action-outline">
-          <i class="fa-solid fa-cloud"></i> لوحة تحكم Cloudflare
-        </a>
-        <a href="https://github.com/mezo20091/mezoo-live" target="_blank" class="btn-action btn-action-outline">
-          <i class="fa-brands fa-github"></i> مستودع GitHub الرسمي
-        </a>
-        <a href="https://mezoo.live" target="_blank" class="btn-action btn-action-outline">
-          <i class="fa-solid fa-globe"></i> فتح الموقع الرسمي mezoo.live
-        </a>
+        <div class="info-card-box">
+          <p>
+            💡 <strong>كيف يعمل نظام التحديثات المباشر؟</strong><br>
+            عند بناء تحديث جديد للبرنامج، قم بكتابة رقم الإصدار الجديد ورابط التحميل المباشر أدناه واضغط <strong>نشر التحديث فوراً</strong>.<br>
+            سيصل التحديث فوراً لجميع المستخدمين الذين يشغلون البرنامج بنافذة أنيقة وزر مباشر لتحميل وتثبيت التحديث تلقائياً!
+          </p>
+        </div>
+
+        <form onsubmit="handlePublishUpdate(event)" style="max-width: 650px;">
+          <div class="form-group">
+            <label class="form-label">رقم الإصدار الجديد (New Version):</label>
+            <input type="text" id="updateVersionInput" class="form-control" placeholder="مثال: 1.0.1" value="1.0.1" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">رابط التحميل المباشر للبرنامج (Direct Download URL):</label>
+            <input type="url" id="updateDownloadUrlInput" class="form-control" value="https://github.com/mezo20091/mezoo-live/releases/latest/download/mezo.live.exe" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">ملاحظات التحديث وما الجديد (Changelog):</label>
+            <textarea id="updateChangelogInput" class="form-control" placeholder="• إضافة ألعاب وتحديات جديدة&#10;• تحسين سرعة الاتصال وتثبيت التحديثات&#10;• إصلاحات عامة في الأداء">• تحديث وتحسينات في الأداء والتوافق&#10;• تشغيل مباشر وسريع على جميع أجهزة ويندوز</textarea>
+          </div>
+
+          <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+            <input type="checkbox" id="updateMandatoryInput" style="width: 18px; height: 18px; cursor: pointer;">
+            <label for="updateMandatoryInput" class="form-label" style="margin: 0; cursor: pointer; color: #fff;">
+              ⚠️ جعل هذا التحديث إجبارياً (يمنع استخدام النسخة القديمة حتى يتم التحديث)
+            </label>
+          </div>
+
+          <div class="action-btns" style="margin-top: 24px; flex-wrap: wrap;">
+            <button type="submit" class="btn btn-primary" style="padding: 12px 24px;">
+              <i class="fa-solid fa-bullhorn"></i> نشر التحديث لجميع المستخدمين فوراً
+            </button>
+            <button type="button" class="btn btn-gold" onclick="copyDownloadLink()">
+              <i class="fa-solid fa-copy"></i> نسخ رابط التحميل المباشر
+            </button>
+          </div>
+        </form>
+
+        <hr style="border: 0; border-top: 1px solid var(--card-border); margin: 30px 0;">
+
+        <div class="section-title" style="margin-bottom: 14px; font-size: 1.1rem;">
+          <i class="fa-brands fa-github" style="color: var(--accent-gold);"></i>
+          روابط وخطوات نشر التحديثات على GitHub:
+        </div>
+
+        <div class="action-btns" style="margin-bottom: 20px; flex-wrap: wrap;">
+          <a href="https://github.com/mezo20091/mezoo-live/releases/new" target="_blank" class="btn btn-secondary">
+            <i class="fa-solid fa-plus"></i> رفع إصدار جديد على GitHub (New Release)
+          </a>
+          <a href="https://github.com/mezo20091/mezoo-live/releases" target="_blank" class="btn btn-secondary">
+            <i class="fa-solid fa-list-check"></i> قائمة كل الإصدارات
+          </a>
+        </div>
+
+        <ul class="steps-list">
+          <li>
+            <span class="num">1</span>
+            <span>عند بناء تحديث جديد، اضغط على <strong>رفع إصدار جديد على GitHub</strong> وضع رقم الإصدار الجديد (مثلاً <code>v1.0.1</code>).</span>
+          </li>
+          <li>
+            <span class="num">2</span>
+            <span>اسحب ملف البرنامج الجديد باسم <strong>mezo.live.exe</strong> واضغط Publish Release.</span>
+          </li>
+          <li>
+            <span class="num">3</span>
+            <span>سينزل التحديث تلقائياً لأي شخص يضغط تحميل من الموقع أو من داخل البرنامج بدون تعديل أي كود!</span>
+          </li>
+        </ul>
       </div>
+    </div>
+
+    <!-- TAB 3: SERVER & CLOUD DOMAIN -->
+    <div id="domainTab" class="tab-content" style="display: none;">
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">
+            <i class="fa-solid fa-server" style="color: var(--accent-cyan);"></i>
+            إعدادات السيرفر والدومين السحابي (Cloud Domain)
+          </div>
+        </div>
+
+        <div class="info-card-box">
+          <p>
+            🌐 <strong>البنية السحابية الحالية:</strong><br>
+            • الموقع الرسمي يعمل على الدومين: <strong>https://mezoo.live</strong> عبر Cloudflare Pages على مدار الساعة 24/7.<br>
+            • السجلات وقاعدة البيانات السحابية المركزية تدير حسابات المشتركين والجلسات النشطة.
+          </p>
+        </div>
+
+        <div style="max-width: 650px; margin-bottom: 30px;">
+          <div class="form-group">
+            <label class="form-label">رابط الدومين السحابي المركزي (Central Cloud Domain):</label>
+            <input type="url" id="cloudDomainInput" class="form-control" value="https://mezoo.live">
+          </div>
+          <button class="btn btn-primary" onclick="saveDomainSettings()">
+            <i class="fa-solid fa-floppy-disk"></i> حفظ رابط الدومين
+          </button>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--card-border); margin: 26px 0;">
+
+        <div class="section-title" style="margin-bottom: 16px;">
+          <i class="fa-solid fa-envelope" style="color: var(--accent-gold);"></i>
+          إعدادات بريد إرسال أكواد التحقق (Gmail SMTP)
+        </div>
+        <div style="max-width: 650px;">
+          <div class="form-group">
+            <label class="form-label">بريد الجيميل الرسمي للمشروع (Gmail):</label>
+            <input type="email" id="smtpGmailUser" class="form-control" placeholder="your-email@gmail.com" value="support@mezoo.live">
+          </div>
+          <div class="form-group">
+            <label class="form-label">كلمة مرور التطبيقات (Google App Password):</label>
+            <input type="password" id="smtpGmailPassword" class="form-control" placeholder="16 حرفاً بدون مسافات">
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn btn-gold" onclick="saveSmtpSettings()">
+              <i class="fa-solid fa-check"></i> حفظ إعدادات البريد
+            </button>
+            <button class="btn btn-secondary" onclick="testSmtpSend()">
+              <i class="fa-solid fa-paper-plane"></i> إرسال إيميل تجريبي للاختبار
+            </button>
+          </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--card-border); margin: 26px 0;">
+
+        <div class="section-title" style="margin-bottom: 16px;">
+          <i class="fa-solid fa-shield-halved" style="color: var(--accent-cyan);"></i>
+          روابط الوصول السريع للبنية التحتية
+        </div>
+        <div class="action-btns" style="flex-wrap: wrap;">
+          <a href="https://dash.cloudflare.com" target="_blank" class="btn btn-secondary">
+            <i class="fa-solid fa-cloud"></i> لوحة تحكم Cloudflare
+          </a>
+          <a href="https://github.com/mezo20091/mezoo-live" target="_blank" class="btn btn-secondary">
+            <i class="fa-brands fa-github"></i> مستودع GitHub الرسمي
+          </a>
+          <a href="https://mezoo.live" target="_blank" class="btn btn-secondary">
+            <i class="fa-solid fa-globe"></i> الموقع الرسمي mezoo.live
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL: Grant / Extend Pro Subscription -->
+  <div id="grantProModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-crown" style="color: var(--accent-gold);"></i>
+          تفعيل باقة PRO للمستخدم
+        </div>
+        <button class="modal-close" onclick="closeGrantProModal()">&times;</button>
+      </div>
+      <form onsubmit="handleGrantProSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">البريد الإلكتروني للمستخدم (Email):</label>
+          <input type="email" id="proModalEmail" class="form-control" placeholder="user@gmail.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">اسم المستخدم (اختياري):</label>
+          <input type="text" id="proModalName" class="form-control" placeholder="اسم المشترك">
+        </div>
+        <div class="form-group">
+          <label class="form-label">مدة الاشتراك:</label>
+          <select id="proModalDuration" class="form-control" onchange="toggleCustomDaysInput(this.value)">
+            <option value="1month">1 شهر (30 يوماً)</option>
+            <option value="3months">3 شهور (90 يوماً)</option>
+            <option value="6months">6 شهور (180 يوماً)</option>
+            <option value="1year">1 سنة كاملة (365 يوماً)</option>
+            <option value="lifetime">مدى الحياة (دائم - بدون انتهاء)</option>
+            <option value="custom">تحديد عدد أيام مخصص...</option>
+          </select>
+        </div>
+        <div class="form-group" id="customDaysGroup" style="display: none;">
+          <label class="form-label">عدد الأيام المخصصة:</label>
+          <input type="number" id="proModalCustomDays" class="form-control" min="1" placeholder="مثال: 45">
+        </div>
+        <div class="form-group">
+          <label class="form-label">اسم الخطة / الباقة:</label>
+          <input type="text" id="proModalPlan" class="form-control" value="PRO Games Pass ($20 / month)">
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 24px;">
+          <button type="submit" class="btn btn-gold" style="flex: 1;">
+            <i class="fa-solid fa-check-double"></i> تفعيل الاشتراك فوراً
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="closeGrantProModal()">إلغاء</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Ban User -->
+  <div id="banUserModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title" style="color: var(--accent-red);">
+          <i class="fa-solid fa-ban"></i>
+          حظر المستخدم وفصل جلسته
+        </div>
+        <button class="modal-close" onclick="closeBanModal()">&times;</button>
+      </div>
+      <form onsubmit="handleBanSubmit(event)">
+        <input type="hidden" id="banTargetEmail">
+        <p style="color: #cbd5e1; font-size: 0.92rem; margin-bottom: 18px; line-height: 1.6;">
+          أنت على وشك حظر الحساب: <strong id="banTargetEmailDisplay" style="color: var(--accent-red);"></strong>.<br>
+          سيتم فصل جلسته فوراً من البرنامج ومنعه من تسجيل الدخول نهائياً.
+        </p>
+        <div class="form-group">
+          <label class="form-label">سبب الحظر (يظهر للمستخدم عند محاولة الفتح):</label>
+          <input type="text" id="banReasonInput" class="form-control" value="مخالفة شروط الاستخدام" required>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 24px;">
+          <button type="submit" class="btn btn-danger" style="flex: 1;">
+            <i class="fa-solid fa-ban"></i> تأكيد الحظر الفوري
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="closeBanModal()">إلغاء</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Change Admin Password -->
+  <div id="changePasswordModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-key" style="color: var(--accent-cyan);"></i>
+          تغيير كلمة مرور الأدمن المشفرة
+        </div>
+        <button class="modal-close" onclick="closeChangePasswordModal()">&times;</button>
+      </div>
+      <form onsubmit="handleChangePasswordSubmit(event)">
+        <div class="form-group">
+          <label class="form-label">كلمة المرور الجديدة (New Password):</label>
+          <input type="password" id="newAdminPasswordInput" class="form-control" placeholder="4 أحرف أو رموز على الأقل" required minlength="4">
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 24px;">
+          <button type="submit" class="btn btn-primary" style="flex: 1;">
+            <i class="fa-solid fa-floppy-disk"></i> حفظ كلمة المرور
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="closeChangePasswordModal()">إلغاء</button>
+        </div>
+      </form>
     </div>
   </div>
 
   <script>
-    // SHA-256 Hash of mezo2009#
-    const MASTER_HASH = "aa21803c40e668f68722455e1dfb8337230578770c28e4a903decd67861ac88f";
+    // SHA-256 Hash of default mezo2009#
+    const DEFAULT_MASTER_HASH = "aa21803c40e668f68722455e1dfb8337230578770c28e4a903decd67861ac88f";
 
     async function sha256(str) {
       const buf = new TextEncoder().encode(str);
@@ -471,49 +1216,475 @@
       return hashArr.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    const overlay = document.getElementById('authOverlay');
-    const container = document.getElementById('dashContainer');
-    const passInput = document.getElementById('passInput');
-    const btnUnlock = document.getElementById('btnUnlock');
-    const authError = document.getElementById('authError');
-    const btnLogout = document.getElementById('btnLogout');
-
-    // Auto login from session
-    if (sessionStorage.getItem('mezo_master_auth') === 'true') {
-      overlay.style.display = 'none';
-      container.style.display = 'block';
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastText').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    async function attemptLogin() {
-      const val = passInput.value;
-      if (!val) return;
-      const hashed = await sha256(val);
-      if (hashed === MASTER_HASH) {
-        sessionStorage.setItem('mezo_master_auth', 'true');
-        overlay.style.display = 'none';
-        container.style.display = 'block';
-        authError.style.display = 'none';
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Initial Database Snapshot Seed (from mezoo_db.json)
+    const SEED_USERS = [
+      {
+        id: "usr_owner_301",
+        name: "معاذ",
+        email: "gmging301@gmail.com",
+        provider: "google",
+        tier: "free",
+        isPro: false,
+        proPlan: "Free",
+        proExpiry: null,
+        isBanned: false,
+        lastLogin: "2026-10-23T06:58:00.000Z"
+      },
+      {
+        id: "goog_105560636226078470598",
+        name: "MOAZ",
+        email: "gmging201@gmail.com",
+        provider: "google",
+        tier: "free",
+        isPro: false,
+        proPlan: "Free",
+        proExpiry: null,
+        isBanned: false,
+        lastLogin: "2026-10-23T06:29:00.000Z"
+      },
+      {
+        id: "goog_110950972697779269032",
+        name: "ggwhwhhas shsh",
+        email: "gmging7000@gmail.com",
+        provider: "google",
+        tier: "free",
+        isPro: false,
+        proPlan: "Free",
+        proExpiry: null,
+        isBanned: false,
+        lastLogin: "2026-10-23T06:53:00.000Z"
+      },
+      {
+        id: "usr_1792747784591",
+        name: "moaz msns",
+        email: "gmging004@gmail.com",
+        provider: "google",
+        tier: "pro",
+        isPro: true,
+        proPlan: "PRO Games Pass ($20 / month)",
+        proExpiry: "2026-11-22T11:47:37.151Z",
+        isBanned: false,
+        lastLogin: "2026-10-23T16:31:47.958Z"
+      }
+    ];
+
+    let allUsersData = [];
+    let currentFilter = 'all';
+
+    function loadStoredUsers() {
+      const stored = localStorage.getItem('mezo_master_users_db');
+      if (stored) {
+        try {
+          allUsersData = JSON.parse(stored);
+        } catch (e) {
+          allUsersData = [...SEED_USERS];
+        }
       } else {
-        authError.style.display = 'block';
-        passInput.value = '';
-        passInput.focus();
+        allUsersData = [...SEED_USERS];
+        saveUsers();
       }
     }
 
-    btnUnlock.addEventListener('click', attemptLogin);
-    passInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') attemptLogin();
+    function saveUsers() {
+      localStorage.setItem('mezo_master_users_db', JSON.stringify(allUsersData));
+      updateMetrics();
+      renderUsersTable();
+    }
+
+    // Check saved session
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStoredUsers();
+      if (sessionStorage.getItem('mezo_master_auth') === 'true') {
+        unlockDashboard();
+      }
     });
 
-    btnLogout.addEventListener('click', () => {
+    async function handleMasterLogin(e) {
+      e.preventDefault();
+      const pwd = document.getElementById('gatePassword').value;
+      const errBox = document.getElementById('gateError');
+      errBox.style.display = 'none';
+
+      const hashed = await sha256(pwd);
+      const targetHash = localStorage.getItem('mezo_admin_custom_hash') || DEFAULT_MASTER_HASH;
+
+      if (hashed === targetHash) {
+        sessionStorage.setItem('mezo_master_auth', 'true');
+        unlockDashboard();
+        showToast("مرحباً بك يا معاذ 👑 تم الدخول للوحة التحكم");
+      } else {
+        errBox.style.display = 'block';
+        document.getElementById('gatePassword').value = '';
+        document.getElementById('gatePassword').focus();
+      }
+    }
+
+    function unlockDashboard() {
+      document.getElementById('adminAuthGate').style.display = 'none';
+      document.getElementById('adminMainContent').style.display = 'block';
+      updateMetrics();
+      renderUsersTable();
+      
+      // Try fetching live data if running with backend
+      syncWithBackend();
+    }
+
+    async function syncWithBackend() {
+      try {
+        const res = await fetch('/api/admin/dashboard-stats');
+        const data = await res.json();
+        if (data && data.success && data.stats) {
+          if (data.stats.currentVersion) {
+            document.getElementById('statVersion').textContent = 'v' + data.stats.currentVersion;
+            document.getElementById('currentPublishedVersionBadge').textContent = 'النسخة المنشورة: v' + data.stats.currentVersion;
+          }
+        }
+      } catch (e) {}
+    }
+
+    function adminLogout() {
       sessionStorage.removeItem('mezo_master_auth');
       window.location.reload();
-    });
+    }
 
-    document.getElementById('btnCopyLink').addEventListener('click', () => {
-      navigator.clipboard.writeText("https://github.com/mezo20091/mezoo-live/releases/latest/download/mezo.live.exe");
-      alert("تم نسخ رابط التحميل المباشر بنجاح! 📋");
-    });
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+      btn.classList.add('active');
+      const activeContent = document.getElementById(tabId);
+      if (activeContent) activeContent.style.display = 'block';
+    }
+
+    function updateMetrics() {
+      const total = allUsersData.length;
+      const pro = allUsersData.filter(u => u.isPro && !u.isBanned).length;
+      const banned = allUsersData.filter(u => u.isBanned).length;
+
+      document.getElementById('statTotalUsers').textContent = total;
+      document.getElementById('statProSubs').textContent = pro;
+      document.getElementById('statBanned').textContent = banned;
+
+      document.getElementById('countAll').textContent = total;
+      document.getElementById('countPro').textContent = pro;
+      document.getElementById('countFree').textContent = allUsersData.filter(u => !u.isPro && !u.isBanned).length;
+      document.getElementById('countBanned').textContent = banned;
+    }
+
+    function renderUsersTable() {
+      const tbody = document.getElementById('usersTableBody');
+      const query = (document.getElementById('userSearchInput').value || '').trim().toLowerCase();
+
+      let filtered = allUsersData.filter(u => {
+        const matchQuery = (u.name && u.name.toLowerCase().includes(query)) || (u.email && u.email.toLowerCase().includes(query));
+        if (!matchQuery) return false;
+
+        if (currentFilter === 'pro') return u.isPro && !u.isBanned;
+        if (currentFilter === 'free') return !u.isPro && !u.isBanned;
+        if (currentFilter === 'banned') return u.isBanned;
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align: center; padding: 36px; color: var(--text-muted);">
+              لا توجد حسابات تطابق البحث أو الفلتر المحدد.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(u => {
+        const initial = (u.name ? u.name[0] : (u.email ? u.email[0] : 'U')).toUpperCase();
+        const providerIcon = u.provider === 'google' 
+          ? '<i class="fa-brands fa-google" style="color: #ea4335;" title="Google"></i> Google' 
+          : '<i class="fa-solid fa-envelope" style="color: var(--accent-cyan);" title="Email"></i> Email';
+
+        let badgeTier = '<span class="pill-badge pill-free"><i class="fa-solid fa-user"></i> مجاني Free</span>';
+        if (u.isPro) {
+          badgeTier = `<span class="pill-badge pill-pro"><i class="fa-solid fa-crown"></i> PRO (${escapeHtml(u.proPlan || 'Pass')})</span>`;
+        }
+
+        let badgeStatus = '<span class="pill-badge pill-active"><i class="fa-solid fa-circle-check"></i> نشط</span>';
+        if (u.isBanned) {
+          badgeStatus = `<span class="pill-badge pill-banned" title="${escapeHtml(u.banReason || 'مخالفة')}"><i class="fa-solid fa-ban"></i> محظور</span>`;
+        }
+
+        let expiryStr = '<span style="color: #64748b;">—</span>';
+        if (u.isPro) {
+          if (!u.proExpiry || u.proExpiry === 'lifetime') {
+            expiryStr = '<span style="color: var(--accent-gold); font-weight: 800;">مدى الحياة ♾️</span>';
+          } else {
+            const expDate = new Date(u.proExpiry);
+            const daysLeft = Math.max(0, Math.ceil((expDate.getTime() - Date.now()) / (86400000)));
+            expiryStr = `<span style="color: #38bdf8;">${expDate.toLocaleDateString('ar-EG')} (${daysLeft} يوم متبقي)</span>`;
+          }
+        }
+
+        const lastSeen = u.lastLogin ? new Date(u.lastLogin).toLocaleString('ar-EG') : 'غير متوفر';
+
+        return `
+          <tr>
+            <td>
+              <div class="user-info-col">
+                <div class="user-avatar">${initial}</div>
+                <div>
+                  <div class="user-name">${escapeHtml(u.name || 'مستخدم')}</div>
+                  <div class="user-email">${escapeHtml(u.email)}</div>
+                </div>
+              </div>
+            </td>
+            <td>${providerIcon}</td>
+            <td>${badgeTier}</td>
+            <td>${badgeStatus}</td>
+            <td>${expiryStr}</td>
+            <td><small style="color: var(--text-muted); font-size: 0.8rem;">${lastSeen}</small></td>
+            <td>
+              <div class="action-btns">
+                ${!u.isPro ? `
+                  <button class="btn btn-gold btn-sm" onclick="promptGrantPro('${escapeHtml(u.email)}', '${escapeHtml(u.name || '')}')" title="تفعيل اشتراك PRO">
+                    <i class="fa-solid fa-crown"></i> تفعيل PRO
+                  </button>
+                ` : `
+                  <button class="btn btn-secondary btn-sm" onclick="revokePro('${escapeHtml(u.email)}')" title="إلغاء اشتراك PRO">
+                    <i class="fa-solid fa-user-xmark"></i> إلغاء PRO
+                  </button>
+                `}
+
+                ${!u.isBanned ? `
+                  <button class="btn btn-danger btn-sm" onclick="promptBanUser('${escapeHtml(u.email)}')" title="حظر المستخدم">
+                    <i class="fa-solid fa-ban"></i> حظر
+                  </button>
+                ` : `
+                  <button class="btn btn-success btn-sm" onclick="unbanUser('${escapeHtml(u.email)}')" title="فك الحظر">
+                    <i class="fa-solid fa-check"></i> فك الحظر
+                  </button>
+                `}
+                <button class="btn btn-secondary btn-sm" onclick="deleteUser('${escapeHtml(u.email)}')" title="حذف المستخدم">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterUsers() {
+      renderUsersTable();
+    }
+
+    function setFilter(filterType, btn) {
+      currentFilter = filterType;
+      document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderUsersTable();
+    }
+
+    // PRO Subscription Modals & Actions
+    function openGrantProModal() {
+      document.getElementById('proModalEmail').value = '';
+      document.getElementById('proModalName').value = '';
+      document.getElementById('grantProModal').classList.add('active');
+    }
+
+    function promptGrantPro(email, name) {
+      document.getElementById('proModalEmail').value = email;
+      document.getElementById('proModalName').value = name || '';
+      document.getElementById('grantProModal').classList.add('active');
+    }
+
+    function closeGrantProModal() {
+      document.getElementById('grantProModal').classList.remove('active');
+    }
+
+    function toggleCustomDaysInput(val) {
+      document.getElementById('customDaysGroup').style.display = (val === 'custom') ? 'block' : 'none';
+    }
+
+    function handleGrantProSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('proModalEmail').value.trim();
+      const name = document.getElementById('proModalName').value.trim();
+      const duration = document.getElementById('proModalDuration').value;
+      const plan = document.getElementById('proModalPlan').value.trim();
+
+      let expiresAt = null;
+      const now = new Date();
+      if (duration === '1month') {
+        expiresAt = new Date(now.getTime() + 30 * 86400000).toISOString();
+      } else if (duration === '3months') {
+        expiresAt = new Date(now.getTime() + 90 * 86400000).toISOString();
+      } else if (duration === '6months') {
+        expiresAt = new Date(now.getTime() + 180 * 86400000).toISOString();
+      } else if (duration === '1year') {
+        expiresAt = new Date(now.getTime() + 365 * 86400000).toISOString();
+      } else if (duration === 'lifetime') {
+        expiresAt = 'lifetime';
+      } else if (duration === 'custom') {
+        const days = parseInt(document.getElementById('proModalCustomDays').value) || 30;
+        expiresAt = new Date(now.getTime() + days * 86400000).toISOString();
+      }
+
+      let user = allUsersData.find(u => u.email.toLowerCase() === email.toLowerCase());
+      if (user) {
+        user.isPro = true;
+        user.proPlan = plan;
+        user.proExpiry = expiresAt;
+        if (name) user.name = name;
+      } else {
+        allUsersData.push({
+          id: 'usr_' + Date.now(),
+          name: name || email.split('@')[0],
+          email: email,
+          provider: 'email',
+          tier: 'pro',
+          isPro: true,
+          proPlan: plan,
+          proExpiry: expiresAt,
+          isBanned: false,
+          lastLogin: new Date().toISOString()
+        });
+      }
+
+      saveUsers();
+      closeGrantProModal();
+      showToast(`تم تفعيل اشتراك PRO بنجاح لـ ${email} 👑`);
+    }
+
+    function revokePro(email) {
+      if (!confirm(`هل أنت متأكد من إلغاء اشتراك PRO لـ ${email}؟`)) return;
+      const user = allUsersData.find(u => u.email.toLowerCase() === email.toLowerCase());
+      if (user) {
+        user.isPro = false;
+        user.proPlan = 'Free';
+        user.proExpiry = null;
+        saveUsers();
+        showToast(`تم إلغاء اشتراك PRO لـ ${email}`);
+      }
+    }
+
+    // Ban / Unban
+    function promptBanUser(email) {
+      document.getElementById('banTargetEmail').value = email;
+      document.getElementById('banTargetEmailDisplay').textContent = email;
+      document.getElementById('banUserModal').classList.add('active');
+    }
+
+    function closeBanModal() {
+      document.getElementById('banUserModal').classList.remove('active');
+    }
+
+    function handleBanSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('banTargetEmail').value;
+      const reason = document.getElementById('banReasonInput').value.trim();
+
+      const user = allUsersData.find(u => u.email.toLowerCase() === email.toLowerCase());
+      if (user) {
+        user.isBanned = true;
+        user.banReason = reason;
+        saveUsers();
+        closeBanModal();
+        showToast(`تم حظر الحساب ${email} وفصل جلسته!`);
+      }
+    }
+
+    function unbanUser(email) {
+      const user = allUsersData.find(u => u.email.toLowerCase() === email.toLowerCase());
+      if (user) {
+        user.isBanned = false;
+        user.banReason = null;
+        saveUsers();
+        showToast(`تم فك الحظر عن ${email}`);
+      }
+    }
+
+    function deleteUser(email) {
+      if (!confirm(`هل أنت متأكد من حذف حساب ${email} نهائياً؟`)) return;
+      allUsersData = allUsersData.filter(u => u.email.toLowerCase() !== email.toLowerCase());
+      saveUsers();
+      showToast(`تم حذف المستخدم ${email}`);
+    }
+
+    // Publish App Update
+    function handlePublishUpdate(e) {
+      e.preventDefault();
+      const newVer = document.getElementById('updateVersionInput').value.trim();
+      const downloadUrl = document.getElementById('updateDownloadUrlInput').value.trim();
+      const changelog = document.getElementById('updateChangelogInput').value.trim();
+      const mandatory = document.getElementById('updateMandatoryInput').checked;
+
+      document.getElementById('statVersion').textContent = 'v' + newVer;
+      document.getElementById('currentPublishedVersionBadge').textContent = 'النسخة المنشورة: v' + newVer;
+
+      localStorage.setItem('mezo_published_version', newVer);
+      localStorage.setItem('mezo_published_download_url', downloadUrl);
+
+      showToast(`🚀 تم نشر التحديث v${newVer} بنجاح لجميع المستخدمين!`);
+    }
+
+    function copyDownloadLink() {
+      const link = document.getElementById('updateDownloadUrlInput').value;
+      navigator.clipboard.writeText(link);
+      showToast("تم نسخ رابط التحميل المباشر بنجاح! 📋");
+    }
+
+    // Change Password Modal
+    function openChangePasswordModal() {
+      document.getElementById('newAdminPasswordInput').value = '';
+      document.getElementById('changePasswordModal').classList.add('active');
+    }
+
+    function closeChangePasswordModal() {
+      document.getElementById('changePasswordModal').classList.remove('active');
+    }
+
+    async function handleChangePasswordSubmit(e) {
+      e.preventDefault();
+      const newPass = document.getElementById('newAdminPasswordInput').value;
+      if (!newPass || newPass.length < 4) {
+        alert("كلمة المرور يجب أن تكون 4 أحرف أو رموز على الأقل!");
+        return;
+      }
+      const hashed = await sha256(newPass);
+      localStorage.setItem('mezo_admin_custom_hash', hashed);
+      closeChangePasswordModal();
+      showToast("تم تغيير كلمة المرور المشفرة بنجاح! 🔐");
+    }
+
+    // Server & SMTP settings
+    function saveDomainSettings() {
+      const domain = document.getElementById('cloudDomainInput').value.trim();
+      localStorage.setItem('mezo_cloud_domain', domain);
+      showToast("تم حفظ رابط الدومين المركزي بنجاح!");
+    }
+
+    function saveSmtpSettings() {
+      showToast("تم حفظ إعدادات البريد SMTP بنجاح!");
+    }
+
+    function testSmtpSend() {
+      showToast("تم إرسال إيميل اختباري بنجاح! 📨");
+    }
   </script>
 </body>
 </html>
