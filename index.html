@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEZOO LIVE 👑 | البرنامج الرسمي لتحديات وبثوث تيك توك</title>
+  <link rel="icon" type="image/png" href="mezo-icon.png">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ألوان برنامج Mezoo Live الأصلية الدقيقة */
+    :root {
+      --bg-primary: #080f12;
+      --bg-card: #0e181c;
+      --bg-card-hover: #132227;
+      --border-color: #1a2c33;
+      --border-subtle: #14242a;
+      --text-main: #f1f5f9;
+      --text-muted: #8ba2ab;
+      --classic-gold: #d4af37;
+      --classic-gold-hover: #e5c07b;
+      --primary: #0d9488;
+      --primary-hover: #0f766e;
+      --primary-active: #14b8a6;
+      --cyan-glow: rgba(0, 240, 255, 0.35);
+      --gold-glow: rgba(212, 175, 55, 0.35);
+      --glass: rgba(14, 24, 28, 0.95);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      background-image:
+        radial-gradient(at 15% 15%, rgba(13, 148, 136, 0.12) 0px, transparent 50%),
+        radial-gradient(at 85% 85%, rgba(212, 175, 55, 0.08) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      overflow-x: hidden;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Ambient background grid */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navbar: فقط تعريف وتحميل */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand img {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px var(--cyan-glow);
+      border: 1px solid var(--border-color);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--classic-gold-hover));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .version-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--primary-active);
+      background: rgba(13, 148, 136, 0.15);
+      padding: 2px 8px;
+      border-radius: 20px;
+      border: 1px solid rgba(13, 148, 136, 0.35);
+      display: inline-block;
+      width: fit-content;
+      margin-top: -2px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+    }
+
+    .btn-nav-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #080f12;
+      background: linear-gradient(135deg, var(--primary-active), var(--classic-gold));
+      border: none;
+      text-decoration: none;
+      box-shadow: 0 4px 18px var(--cyan-glow);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn-nav-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px var(--cyan-glow);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 75px 0 55px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 20px;
+      border-radius: 30px;
+      background: rgba(14, 24, 28, 0.8);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .badge-pill i {
+      color: var(--classic-gold);
+    }
+
+    .hero-title {
+      font-size: 3.2rem;
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 20px;
+      max-width: 850px;
+    }
+
+    .gradient-gold-teal {
+      background: linear-gradient(135deg, var(--primary-active) 10%, #38bdf8 45%, var(--classic-gold-hover) 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .hero-desc {
+      font-size: 1.18rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin-bottom: 38px;
+      line-height: 1.75;
+    }
+
+    /* Download CTA Group */
+    .download-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 55px;
+      width: 100%;
+    }
+
+    .btn-download-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 19px 48px;
+      font-size: 1.22rem;
+      font-weight: 900;
+      color: #080f12;
+      background: linear-gradient(135deg, var(--primary-active) 0%, #38bdf8 50%, var(--classic-gold) 100%);
+      border-radius: 16px;
+      text-decoration: none;
+      box-shadow: 0 10px 35px var(--cyan-glow), 0 0 50px rgba(13, 148, 136, 0.25);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-download-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: 0.6s;
+    }
+
+    .btn-download-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-download-primary:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 16px 45px var(--cyan-glow), 0 0 70px rgba(13, 148, 136, 0.35);
+    }
+
+    .btn-download-primary i.fa-windows {
+      font-size: 1.5rem;
+    }
+
+    .system-info-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      padding: 7px 18px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .system-info-badge span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .system-info-badge .dot {
+      width: 4px;
+      height: 4px;
+      background: var(--border-color);
+      border-radius: 50%;
+    }
+
+    .mirror-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .mirror-link {
+      color: var(--primary-active);
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    /* Core Features Grid */
+    .features-section {
+      padding: 30px 0 70px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 42px;
+    }
+
+    .section-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 28px 22px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      background: var(--bg-card-hover);
+      border-color: rgba(13, 148, 136, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(13, 148, 136, 0.15);
+    }
+
+    .feature-icon-wrap {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 18px;
+      background: rgba(13, 148, 136, 0.12);
+      color: var(--primary-active);
+      border: 1px solid rgba(13, 148, 136, 0.3);
+    }
+
+    .icon-gold {
+      background: rgba(212, 175, 55, 0.12);
+      color: var(--classic-gold);
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    .feature-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .feature-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* 3-Step Setup */
+    .steps-section {
+      padding: 20px 0 70px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 26px 20px;
+      position: relative;
+    }
+
+    .step-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.05);
+      position: absolute;
+      top: 14px;
+      left: 18px;
+    }
+
+    .step-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .step-title i {
+      color: var(--primary-active);
+    }
+
+    .step-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Bottom Download Box */
+    .bottom-cta {
+      background: linear-gradient(135deg, rgba(14, 24, 28, 0.9) 0%, rgba(13, 148, 136, 0.15) 100%);
+      border: 1px solid var(--border-color);
+      border-radius: 22px;
+      padding: 45px 25px;
+      text-align: center;
+      margin-bottom: 70px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .bottom-cta h2 {
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .bottom-cta p {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 26px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 26px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.1rem; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .btn-download-primary { width: 100%; padding: 16px 20px; font-size: 1.05rem; }
+      .nav-actions .nav-link { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+  <div class="container">
+    <!-- Navbar: فقط تعريف وتحميل (بدون لوحة تحكم) -->
+    <header class="navbar">
+      <a href="/" class="brand">
+        <img src="mezo-icon.png" alt="Mezoo Live Logo" onerror="this.src='favicon.png'">
+        <div class="brand-text">
+          <span class="brand-title">MEZOO LIVE</span>
+          <span class="version-tag">V1.0.0 المستقر</span>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <a href="#features" class="nav-link">المميزات</a>
+        <a href="https://github.com/mezo20091/mezoo-live/releases/latest/download/MezooLive_Setup.exe" class="btn-nav-download">
+          <i class="fa-solid fa-download"></i>
+          <span>تحميل البرنامج</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="download">
+      <div class="badge-pill">
+        <i class="fa-solid fa-crown"></i>
+        <span>البرنامج الرسمي لصناع محتوى وبثوث تيك توك</span>
+      </div>
+
+      <h1 class="hero-title">
+        ارتقِ ببثك المباشر مع <span class="gradient-gold-teal">MEZOO LIVE</span>
+      </h1>
+
+      <p class="hero-desc">
+        البرنامج الشامل للستريمرز: شاشات أوفرلاي احترافية لبرنامج OBS، قراءة فورية لهدايا وتفاعل تيك توك، ونظام نطق آلي ذكي بضغطة زر واحدة.
+      </p>
+
+      <!-- Main Download Button -->
+      <div class="download-group">
+        <a href="https://github.com/mezo20091/mezoo-live/releases/latest/download/MezooLive_Setup.exe" id="mainDownloadBtn" class="btn-download-primary">
+          <i class="fa-brands fa-windows"></i>
+          <span>تحميل البرنامج للكمبيوتر (Windows .EXE)</span>
+          <i class="fa-solid fa-arrow-down"></i>
+        </a>
+
+        <div class="system-info-badge">
+          <span><i class="fa-solid fa-desktop"></i> نظام Windows 10 / 11 (64-bit)</span>
+          <div class="dot"></div>
+          <span><i class="fa-solid fa-file-zipper"></i> الحجم: ~184 MB</span>
+          <div class="dot"></div>
+          <span><i class="fa-solid fa-shield-halved" style="color: #10b981;"></i> آمن 100%</span>
+        </div>
+
+        <div class="mirror-links">
+          <span>روابط بديلة:</span>
+          <a href="https://drive.google.com" target="_blank" class="mirror-link" id="mirrorDriveLink">رابط Google Drive</a>
+          <span>•</span>
+          <a href="https://mediafire.com" target="_blank" class="mirror-link" id="mirrorMediafireLink">رابط MediaFire</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Features Grid -->
+    <section class="features-section" id="features">
+      <div class="section-header">
+        <h2 class="section-title">أقوى مميزات البث في مكان واحد</h2>
+        <p class="section-subtitle">أدوات احترافية مصممة خصيصاً للستريمرز لتقديم أفضل تجربة للمتابعين</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <h3 class="feature-title">ربط تيك توك اللحظي</h3>
+          <p class="feature-desc">
+            اتصال فوري ومستقر مع البث لقراءة الهدايا، الإعجابات، والمشاركات بسرعة وبدون أي تأخير.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap icon-gold">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </div>
+          <h3 class="feature-title">أوفرلايات سينمائية لـ OBS</h3>
+          <p class="feature-desc">
+            تأثيرات سينمائية بضربة السيف، شريط نصوص متحرك، وشاشات تفاعل تمنح بثك مظهراً احترافياً.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <i class="fa-solid fa-microphone-lines"></i>
+          </div>
+          <h3 class="feature-title">نظام نطق آلي ذكي (TTS)</h3>
+          <p class="feature-desc">
+            قراءة أسماء الداعمين والرسائل بصوت نقي وطبيعي بالذكاء الاصطناعي وبشكل تلقائي أثناء اللعب.
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap icon-gold">
+            <i class="fa-solid fa-gauge-high"></i>
+          </div>
+          <h3 class="feature-title">خفيف وفائق السرعة</h3>
+          <p class="feature-desc">
+            مبني ومحسن ليعمل بكفاءة عالية على جهازك بدون استهلاك كارت الشاشة أو المعالج أثناء الألعاب.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 Steps -->
+    <section class="steps-section">
+      <div class="section-header">
+        <h2 class="section-title">ابدأ البث في 3 خطوات بسيطة</h2>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <span class="step-number">01</span>
+          <h4 class="step-title"><i class="fa-solid fa-download"></i> حمّل البرنامج</h4>
+          <p class="step-desc">اضغط على زر التحميل وشغل ملف التثبيت على جهازك بثوانٍ معدودة.</p>
+        </div>
+
+        <div class="step-card">
+          <span class="step-number">02</span>
+          <h4 class="step-title"><i class="fa-solid fa-sliders"></i> اضبط إعداداتك وOBS</h4>
+          <p class="step-desc">انسخ رابط الأوفرلاي لبرنامج OBS Studio وضع اسم حسابك في تيك توك.</p>
+        </div>
+
+        <div class="step-card">
+          <span class="step-number">03</span>
+          <h4 class="step-title"><i class="fa-solid fa-fire"></i> افتح البث واستمتع</h4>
+          <p class="step-desc">شاهد التفاعل يشتعل والهدايا تظهر على شاشتك في الحال أمام جمهورك!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="bottom-cta">
+      <h2>جاهز لبدء تجربة بث استثنائية؟</h2>
+      <p>حمّل MEZOO LIVE الآن واجعل بثك يبدو كالقنوات الاحترافية العالمية.</p>
+      <a href="https://github.com/mezo20091/mezoo-live/releases/latest/download/MezooLive_Setup.exe" class="btn-download-primary" style="margin: 0 auto;">
+        <i class="fa-brands fa-windows"></i>
+        <span>تحميل MEZOO LIVE للكمبيوتر مجاناً</span>
+        <i class="fa-solid fa-download"></i>
+      </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 MEZOO LIVE. جميع الحقوق محفوظة لـ mezoo.live 👑</p>
+    </footer>
+  </div>
+
+</body>
+</html>
